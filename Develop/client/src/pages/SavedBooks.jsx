@@ -1,12 +1,5 @@
-import { useState, useEffect } from 'react';
-import {
-  Container,
-  Card,
-  Button,
-  Row,
-  Col
-} from 'react-bootstrap';
-
+import React, { useState, useEffect } from 'react';
+import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
@@ -14,7 +7,6 @@ import { removeBookId } from '../utils/localStorage';
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
 
-  // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
 
   useEffect(() => {
@@ -42,7 +34,6 @@ const SavedBooks = () => {
     getUserData();
   }, [userDataLength]);
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -59,14 +50,12 @@ const SavedBooks = () => {
 
       const updatedUser = await response.json();
       setUserData(updatedUser);
-      // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // if data isn't here yet, say so
   if (!userDataLength) {
     return <h2>LOADING...</h2>;
   }
